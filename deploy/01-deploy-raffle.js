@@ -19,9 +19,8 @@ module.exports = async function({getNamedAccounts, deployments}){
         const txReceipt = await txResponse.wait(1);
         
         subscriptionId = txReceipt.events[0].args.subId;
-        console.log("subs id: ", subscriptionId)
-        //Fund the subscription, on real we need LINK Token, on local we do whatever amount we want
 
+        //Fund the subscription, on real we need LINK Token, on local we do whatever amount we want
         await VRFCoordinatorV2Mock.fundSubscription(
           subscriptionId,
           VRF_SUBSCRIPTION_FUND_AMOUNT

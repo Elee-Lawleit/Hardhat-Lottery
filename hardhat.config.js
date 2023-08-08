@@ -1,3 +1,4 @@
+require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require("hardhat-deploy");
@@ -20,10 +21,12 @@ module.exports = {
     },
     sepolia: {
       url: SEPOLIA_RPC_URL,
-      accounts: [  ETHEREUM_ACCOUNT_PRIVATE_KEY /* ACC_PR_Key_02,  ACC_PR_Key_03*/, ],
+      accounts: [
+        ETHEREUM_ACCOUNT_PRIVATE_KEY /* ACC_PR_Key_02,  ACC_PR_Key_03*/,
+      ],
       chainId: 11155111,
       //to wait this many blocks
-      blockConfirmations: 6
+      blockConfirmations: 6,
     },
     localhost: {
       url: "http://127.0.0.1:8545/",
@@ -34,10 +37,20 @@ module.exports = {
   solidity: "0.8.19",
   namedAccounts: {
     deployer: {
-      default: 0
+      default: 0,
     },
     player: {
-      default: 1
-    }
-  }
+      default: 1,
+    },
+  },
+  gasReporter: {
+    enabled: false,
+    //to output to a text file
+    outputFile: "gasReporterOutput.txt",
+    noColors: true,
+    currency: "PKR",
+    // coinmarketcap: COINMARKETCAP_API_KEY,
+    //to see info for different blockchains, MATIC is for polygon
+    token: "ETH",
+  },
 };
