@@ -39,7 +39,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     // this one holds the REFERENCE to the contract object, if that makes sense
     bytes32 private immutable i_gasLane;
     uint64 private immutable i_subscriptionId;
-    uint16 private constant REQUEST_CONFIRMATIONS = 3;
+    uint16 private constant REQUEST_CONFIRMATIONS = 1;
     uint32 private immutable i_callbackGasLimit;
     uint32 private constant NUM_WORDS = 1;
 
@@ -100,6 +100,9 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
      * 4. The loterry is in open state
      */
 
+    //THIS AUTOMATION WAS DONE THROUGH CUSTOM LOGIC, YOU CAN ALSO AUTOMATE THINGS BASED ON FIXED TIME,
+    // depends on the requirements obv
+
     //performData is a variable which we can use to do something else when the interval hits
     function checkUpkeep(bytes memory /*checkData*/) public override returns (bool upkeepNeeded, bytes memory /* performData */){
         bool isOpen = (RaffleState.OPEN == s_raffleState);
@@ -115,6 +118,9 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
     // we will change this to be performUpKeep. ie to perform stuff we want to perform after the interval
     //performData will automatically be passed here
     function performUpkeep(bytes calldata /* performData */) external override {
+        //we're calling upkeep manually here again just to make sure that we really want to perform the automated task
+        //we don't have to, but is it the recomended way to do things
+        // checkUpKeep IS CALLED AUTOMATICALLY BY CHAINLINK KEEPERS, BUT JUST TO MAKE ABSOLUTELY SURE, WE DO IT AGAIN!!!!
         (bool upkeedNeeded, ) = checkUpkeep("");
         if(!upkeedNeeded){
             revert Raffle__UpkeepNotNeeded(address(this).balance, s_players.length, uint256(s_raffleState));

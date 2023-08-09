@@ -9,9 +9,12 @@ module.exports = async function({getNamedAccounts, deployments}){
     const {deployer} = await getNamedAccounts();
     const chainId = network.config.chainId;
     let vrfCoordinatorV2Address, subscriptionId;
+    const VRFCoordinatorV2Mock = await ethers.getContract(
+      "VRFCoordinatorV2Mock"
+    );
 
     if(developmentChains.includes(network.name)){
-        const VRFCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock");
+        //const VRFCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock");
 
         vrfCoordinatorV2Address = VRFCoordinatorV2Mock.address;
 
@@ -50,6 +53,9 @@ module.exports = async function({getNamedAccounts, deployments}){
         log: true,
         waitConfirmations: network.config.blockConfirmations || 1
     })
+
+    //adding a consumer for requesting random numbers
+    await VRFCoordinatorV2Mock.addConsumer(subscriptionId, raffle.address)
 
     if(!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY){
         log("Verifying contract....");
