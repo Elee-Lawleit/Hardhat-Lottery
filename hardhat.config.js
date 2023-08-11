@@ -53,4 +53,8 @@ module.exports = {
     //to see info for different blockchains, MATIC is for polygon
     token: "ETH",
   },
+  //timeout value for testing
+  mocha: {
+    timeout: 300000,
+  },
 };

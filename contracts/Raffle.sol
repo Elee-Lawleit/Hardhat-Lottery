@@ -128,7 +128,7 @@ contract Raffle is VRFConsumerBaseV2, KeeperCompatibleInterface {
         s_raffleState = RaffleState.CALCULATING;
         uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane, //specifying the max amount of gas we want to use
-            i_subscriptionId, //the id of the contract that has the subscription
+            i_subscriptionId, //the subscription id (that was assigned by the vrf service) of the contract that has the subscription
             REQUEST_CONFIRMATIONS, //how many blocks you want to wait
             i_callbackGasLimit, //how much gas fulfillRandomWords can use
             NUM_WORDS //how many random numbers we want
